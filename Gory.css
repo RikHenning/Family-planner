@@ -471,13 +471,37 @@ h1 {
 	align-items: stretch;
 }
 
-.image {
+.boxOne{
 	display: flex;
+  width: 20%;
 }
 
-.header {
+.boxTwo {
 	display: flex;
+  width: 80%;
 }
+
+.listSection {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.navBar {
+  display: flex;
+  width: 20%;
+  text-align: center;
+}
+
+.taskList {
+  display: flex;
+  width: 80%;
+  text-align: center;
+}
+
+
 .wholePage {
 
 
