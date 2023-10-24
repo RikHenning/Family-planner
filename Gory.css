@@ -486,18 +486,13 @@ h1 {
 .listSection {
   display: flex;
   flex-direction: row;
+  width: 20%;
   align-items: stretch;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.navBar {
-  display: flex;
-  width: 20%;
-  text-align: center;
-}
-
-.taskList {
+.taskListHeader {
   display: flex;
   width: 80%;
   text-align: right;
