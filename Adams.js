@@ -50,7 +50,10 @@ newTaskForm.addEventListener("submit", (event) => {
 function getTaskById(taskId) {
   const tasks = JSON.parse(localStorage.getItem('tasks'));
   taskResult = tasks.filter(task => task.taskId === taskId)
+  console.log(taskResult);
 }
+
+getTaskById(Math.floor(Math.random()*2699256952556));
 
 function createTaskListRow(task, taskId) {
   const row = document.createElement("tr");
@@ -68,8 +71,15 @@ function createTaskListRow(task, taskId) {
   const category = document.createElement("td");
   category.textContent = task.category;
   const deleteButton = document.createElement("button");
-
+  deleteButton.classList.add("tableButton");
+  deleteButton.textContent = "Not up for it!";
+  deleteButton.addEventListener("click", () => deleteTask(index));
   const editButton = document.createElement("button");
+  eleteButton.classList.add("tableButton");
+  deleteButton.textContent = "Do it differently!";
+  deleteButton.addEventListener("click", () => editTask(index));
+
+  return row;
 }
 
 function displayTaskList() {
@@ -77,9 +87,8 @@ function displayTaskList() {
   taskListBody.innerHTML = "";
 
   const taskId = Math.floor(Math.random()*2699256952556);
-  const task = getTaskById(taskId);
-
-    task.forEach((task, taskId) => {
+  
+    getTaskById(taskId).forEach((task, taskId) => {
       const taskRow = createTaskListRow(task, taskId);
       taskListBody.appendChild(taskRow)
     });  
@@ -87,7 +96,78 @@ function displayTaskList() {
 
 displayTaskList();
 
+function deleteTask(taskId) {
+  getTaskById(taskId).splice(taskId,1);
+  displayTaskList();
+}
 
+function editTask(taskId) {
+  const oldTask = getTaskById(taskId);
+
+  const editFrom = document.createElement("form");
+
+  const idCell = document.createElement("input");
+  idCell.setAttribute("type", "text");
+  idCell.textContent = oldTask.taskId;
+  const taskName = document.createElement("input");
+  taskName.setAttribute("type", "text");
+  taskName.textContent = oldTask.taskName;
+  const description = document.createElement("input");
+  description.setAttribute("type", "text");
+  description.textContent = oldTask.description;
+  const dueDate = document.createElement("input");
+  dueDate.setAttribute("type", "date");
+  dueDate.textContent = oldTask.dueDate; 
+  const priority = document.createElement("legend");
+  priority.setAttribute("type", "text");
+  priority.textContent = oldTask.priority;
+    const priorityLow = document.createElement("input");
+    priorityLow.setAttribute("type", "radio");
+    const priorityMedium = document.createElement("input");
+    priorityMedium.setAttribute("type", "radio");
+    const priorityHigh = document.createElement("input");
+    priorityHigh.setAttribute("type", "radio");
+      if  (priority === "Low") {priorityLow.checked}
+       else if (priority === "Medium") {priorityMedium.checked}
+        else (priority === "High") {priorityHigh.checked}
+  priority.appendChild(priorityLow);
+  priority.appendChild(priorityMedium);
+  priority.appendChild(priorityHigh); 
+  const category = document.createElement("select");
+  category.setAttribute("type", "text");
+  category.textContent = oldTask.category;
+    const categoryWork = document.createElement("option");
+    categoryWork.setAttribute('value', 'Work');
+    categoryWork.setAttribute('name', 'Work');
+    const categoryPersonal = document.createElement("option");
+    categoryPersonal.setAttribute('value', 'Personal');
+    categoryPersonal.setAttribute('name', 'Personal');
+    const categoryShopping = document.createElement("option");
+    categoryShopping.setAttribute('value', 'Shopping');
+    categoryShopping.setAttribute('name', 'Shopping');
+    const categoryGarden = document.createElement("option");
+    categoryGarden.setAttribute('value', 'Garden');
+    categoryGarden.setAttribute('name', 'Garden');
+     if (category === 'Work') {categoryWork.selected}
+      else if (category === 'Personal') {categoryPersonal.selected}
+        else if (category === 'Shopping') {categoryShopping.selected}
+          else (category === 'Garden') {categoryGarden.selected}
+  category.appendChild(categoryWork);
+  category.appendChild(categoryPersonal);
+  category.appendChild(categoryShopping);
+  category.appendChild(categoryGarden);
+
+  displayEditTask();
+}
+
+function displayTaskList() {
+
+  taskEditSpot.innerHTML = "";
+
+  editTask()
+    ;  
+
+}
 // $('#myModal').on('shown.bs.modal', function () {
 //   $('#myInput').trigger('focus')
 // })
