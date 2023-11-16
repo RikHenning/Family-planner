@@ -85,17 +85,26 @@
     updatedDescription.value = editTask.description;
     const updatedDueDate = document.getElementById('editDueDate');
     updatedDueDate.value = editTask.dueDate;
-    const updatedPriority = '';
-    if (editTask.priority === 'Low') {
-    	updatedPriority = document.getElementById('editPriorityLow');
-    	editPriorityLow.checked = true;
-    } else if (editTask.priority === 'Medium') {
-    	updatedPriority = document.getElementById('editPriorityMedium');
-    	editPriorityMedium.checked = true;
-    } else if (editTask.priority === 'High') {
-    	updatedPriority = document.getElementById('editPriorityHigh');
-    	editPriorityHigh.checked = true;
-    };
+    let updatedPriority = '';
+	    if (editTask.priority === 'Low') {
+	    	updatedPriority = document.getElementById('editPriorityLow');
+	    	updatedPriority.checked = true;
+	    } else if (editTask.priority === 'Medium') {
+	    	updatedPriority = document.getElementById('editPriorityMedium');
+	    	updatedPriority.checked = true;
+	    } else if (editTask.priority === 'High') {
+	    	updatedPriority = document.getElementById('editPriorityHigh');
+	    	updatedPriority.checked = true;
+	    };
+    let updatedCategory = '';
+    	let editCategory = document.getElementById('editCategory')
+    	const oldCategory = editTask.category;
+    	var i ;
+    	for (i = 0; i < editCategory.option.value.length ; i++) {
+    		if (editCategory.option.value === oldCategory ) {
+    			editCategory.option.value.selected;
+    		}
+    	}
     
 
 
