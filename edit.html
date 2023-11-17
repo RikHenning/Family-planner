@@ -100,7 +100,7 @@
     	let editCategory = document.getElementById('editCategory')
     	const oldCategory = editTask.category;
     	var i ;
-    	for (i = 0; i < editCategory.option.value.length ; i++) {
+    	for (i = 0; i < document.getElementById('editCategory').length ; i++) {
     		if (editCategory.option.value === oldCategory ) {
     			editCategory.option.value.selected;
     		}
