@@ -74,6 +74,7 @@
 <script src="Adams.js"></script>
 
 <script>
+	const editTaskForm = document.getElementById('editTaskForm');
 	const urlParams = new URLSearchParams(window.location.search);
     const taskId = urlParams.get('id');
     const intergeId = parseInt(taskId);
@@ -100,13 +101,17 @@
     	let editCategory = document.getElementById('editCategory')
     	const oldCategory = editTask.category;
     	var i ;
-    	for (i = 0; i < document.getElementById('editCategory').length ; i++) {
-    		if (editCategory.option.value === oldCategory ) {
-    			editCategory.option.value.selected;
+    	for (i = 0; i < editCategory.children.length ; i++) {
+    		if (editCategory.children[i].value === oldCategory ) {
+    			editCategory.children[i].selected = true;
     		}
     	}
-    
 
+
+    
+editTaskForm.addEventListener("submit", (event) => {
+	saveEditTask(event,intergeId);
+});
 
 </script>
 </body>

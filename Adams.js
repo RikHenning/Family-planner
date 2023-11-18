@@ -26,6 +26,16 @@ function getTaskById(taskId) {
   return taskResult[0];
 }
 
+function editTask(task) {
+  const existingTasks = getTasksFromLocalStorage();
+  const indexOfTaskToEdit= existingTasks.findIndex(task => task.taskId === taskId);
+  if (indexOfTaskToEdit !== -1) {
+        existingTasks[indexOfTaskToEdit] = task
+        // save the existing task to localstorage (line 13)
+    }
+
+}
+
 function deleteTask(taskId) {
   const existingTasks = getTasksFromLocalStorage();
   const indexOfTaskToDelete = existingTasks.findIndex(task => task.taskId === taskId);
@@ -53,11 +63,38 @@ function createNewTask(event) {
         priority = 'High' 
       } 
     const category = event.target.category.value;
-    const taskNumber = Math.floor(Math.random() * 100);
     const task = {'taskId': Date.now(), 'taskName': taskName,  'description': description, 'dueDate': dueDate,'priority': priority, 'category': category} 
     pushTaskToLocalStorage(task);
     displayTaskList();  
 }
+
+function saveEditTask(event, taskIdToEdit) {
+  event.preventDefault();
+  const taskName = event.target.editTaskName.value;
+  const description = event.target.elements.editDescription.value;
+  const dueDate = event.target.elements.editDueDate.value;
+  let priority = '';
+    if (event.target.editPriorityLow.checked === true) {
+        priority = 'Low'
+    }
+    else if (event.target.editPriorityMedium.checked === true) {
+        priority = 'Medium'
+    }
+    else if (event.target.editPriorityHigh.checked === true) {
+        priority = 'High' 
+    } 
+  const category = event.target.editCategory.value;
+    
+  const task = getTaskById(taskIdToEdit);
+  task.taskName = taskName
+  task.description = description
+
+
+
+
+
+    // const task = {'taskId': Date.now(), 'taskName': taskName,  'description': description, 'dueDate': dueDate,'priority': priority, 'category': category} 
+    }
 
 function createTaskListRow(task, taskId) {
   const row = document.createElement("tr");
