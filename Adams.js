@@ -28,9 +28,12 @@ function getTaskById(taskId) {
 
 function saveEditTaskToLocalStorage(task) {
   const existingTasks = getTasksFromLocalStorage();
+  console.log(existingTasks);
   const indexOfTaskToEdit = existingTasks.findIndex(task => task.taskId === taskId);
   if (indexOfTaskToEdit !== -1) {
-        existingTasks[indexOfTaskToEdit] = task
+        // existingTasks[indexOfTaskToEdit] = task
+      existingTasks.splice(indexOfTaskToDelete, 1, task)
+        console.log(existingTasks);
 saveTasksToLocalStorage(existingTasks);
 console.log(existingTasks);
     }
