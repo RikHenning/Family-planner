@@ -26,14 +26,14 @@ function getTaskById(taskId) {
   return taskResult[0];
 }
 
-function editTask(task) {
+function saveEditTaskToLocalStorage(task) {
   const existingTasks = getTasksFromLocalStorage();
-  const indexOfTaskToEdit= existingTasks.findIndex(task => task.taskId === taskId);
+  const indexOfTaskToEdit = existingTasks.findIndex(task => task.taskId === taskId);
   if (indexOfTaskToEdit !== -1) {
         existingTasks[indexOfTaskToEdit] = task
-        // save the existing task to localstorage (line 13)
+saveTasksToLocalStorage(existingTasks);
+console.log(existingTasks);
     }
-
 }
 
 function deleteTask(taskId) {
@@ -44,7 +44,6 @@ function deleteTask(taskId) {
         saveTasksToLocalStorage(existingTasks);
         displayTaskList();
     }
-
 }
 
 function createNewTask(event) {
@@ -86,14 +85,13 @@ function saveEditTask(event, taskIdToEdit) {
   const category = event.target.editCategory.value;
     
   const task = getTaskById(taskIdToEdit);
-  task.taskName = taskName
-  task.description = description
-
-
-
-
-
-    // const task = {'taskId': Date.now(), 'taskName': taskName,  'description': description, 'dueDate': dueDate,'priority': priority, 'category': category} 
+  task.taskName = taskName;
+  task.description = description;
+  task.dueDate = dueDate;
+  task.priority = priority;
+  task.category = category;
+  console.log(task);
+  saveEditTaskToLocalStorage(task);
     }
 
 function createTaskListRow(task, taskId) {
