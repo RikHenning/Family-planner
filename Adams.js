@@ -5,6 +5,9 @@
 const newTaskForm = document.getElementById('newTaskForm');
 const taskListBody = document.getElementById('taskListBody');
 const taskEditSpot = document.getElementById('taskEditSpot');
+const myModal = document.getElementById('myModal')
+const myInput = document.getElementById('myInput')
+
 
  function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tasks'));
@@ -225,6 +228,11 @@ function displayTaskList() {
 newTaskForm.addEventListener("submit", (event) => {
   createNewTask(event);
   });
+
+myModal.addEventListener('shown.bs.modal', () => {
+  myInput.focus()
+})
+
 
 
 displayTaskList();
