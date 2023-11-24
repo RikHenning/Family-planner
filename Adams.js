@@ -1,12 +1,8 @@
-
-// localStorage.clear();
-// localStorage.setItem('tasks', JSON.stringify([{'taskId': 0, 'taskName': 'Default',  'description': 'Default', 'dueDate': 'Default','priority': 'Default', 'category': 'Default'}]));
-
 const newTaskForm = document.getElementById('newTaskForm');
 const taskListBody = document.getElementById('taskListBody');
 const taskEditSpot = document.getElementById('taskEditSpot');
-const myModal = document.getElementById('myModal')
-const myInput = document.getElementById('myInput')
+// const myModal = document.getElementById('myModal')
+// const myInput = document.getElementById('myInput')
 
 
  function getTasksFromLocalStorage() {
@@ -29,16 +25,13 @@ function getTaskById(taskId) {
   return taskResult[0];
 }
 
-function saveEditTaskToLocalStorage(task) {
+function saveEditTaskToLocalStorage(taskToEdit) {
   const existingTasks = getTasksFromLocalStorage();
-  console.log(existingTasks);
-  const indexOfTaskToEdit = existingTasks.findIndex(task => task.taskId === taskId);
+  const indexOfTaskToEdit = existingTasks.findIndex(task => task.taskId === taskToEdit.taskId);
   if (indexOfTaskToEdit !== -1) {
-        // existingTasks[indexOfTaskToEdit] = task
-      existingTasks.splice(indexOfTaskToDelete, 1, task)
-        console.log(existingTasks);
+      existingTasks.splice(indexOfTaskToEdit, 1, taskToEdit);
 saveTasksToLocalStorage(existingTasks);
-console.log(existingTasks);
+
     }
 }
 
@@ -89,15 +82,18 @@ function saveEditTask(event, taskIdToEdit) {
         priority = 'High' 
     } 
   const category = event.target.editCategory.value;
-    
-  const task = getTaskById(taskIdToEdit);
-  task.taskName = taskName;
-  task.description = description;
-  task.dueDate = dueDate;
-  task.priority = priority;
-  task.category = category;
-  console.log(task);
-  saveEditTaskToLocalStorage(task);
+  const saveButton = document.getElementById('saveButton');
+    saveButton.href = 'testmodal.html';
+
+  const taskToEdit = getTaskById(taskIdToEdit);
+  taskToEdit.taskName = taskName;
+  taskToEdit.description = description;
+  taskToEdit.dueDate = dueDate;
+  taskToEdit.priority = priority;
+  taskToEdit.category = category;
+  saveEditTaskToLocalStorage(taskToEdit);
+
+
     }
 
 function createTaskListRow(task, taskId) {
@@ -144,72 +140,6 @@ function createTaskListRow(task, taskId) {
   return row;
 }
 
-// function editTask(taskId) {
-//   const existingTasks = getTasksFromLocalStorage();
-//   const oldTask = existingTasks.findIndex(task => task.taskId === taskId);
-
-//   const editFrom = document.createElement("form");
-
-//   const idCell = document.createElement("input");
-//   idCell.setAttribute("type", "text");
-//   idCell.textContent = oldTask.taskId;
-//   editFrom.appendChild(idCell);
-//   const taskName = document.createElement("input");
-//   taskName.setAttribute("type", "text");
-//   taskName.textContent = oldTask.taskName;
-//   editFrom.appendChild(taskName);
-//   const description = document.createElement("input");
-//   description.setAttribute("type", "text");
-//   description.textContent = oldTask.description;
-//   editFrom.appendChild(description);
-//   const dueDate = document.createElement("input");
-//   dueDate.setAttribute("type", "date");
-//   dueDate.textContent = oldTask.dueDate;
-//   editFrom.appendChild(dueDate);
-//   const priority = document.createElement("legend");
-//   priority.setAttribute("type", "text");
-//   priority.textContent = oldTask.priority;
-//   editFrom.appendChild(priority);
-//     const priorityLow = document.createElement("input");
-//     priorityLow.setAttribute("type", "radio");
-//     const priorityMedium = document.createElement("input");
-//     priorityMedium.setAttribute("type", "radio");
-//     const priorityHigh = document.createElement("input");
-//     priorityHigh.setAttribute("type", "radio");
-//       if  (priority === "Low") {priorityLow.checked}
-//        else if (priority === "Medium") {priorityMedium.checked}
-//         else (priority === "High") {priorityHigh.checked}
-//   priority.appendChild(priorityLow);
-//   priority.appendChild(priorityMedium);
-//   priority.appendChild(priorityHigh); 
-//   const category = document.createElement("select");
-//   category.setAttribute("type", "text");
-//   category.textContent = oldTask.category;
-//   editFrom.appendChild(category)
-//     const categoryWork = document.createElement("option");
-//     categoryWork.setAttribute('value', 'Work');
-//     categoryWork.setAttribute('name', 'Work');
-//     const categoryPersonal = document.createElement("option");
-//     categoryPersonal.setAttribute('value', 'Personal');
-//     categoryPersonal.setAttribute('name', 'Personal');
-//     const categoryShopping = document.createElement("option");
-//     categoryShopping.setAttribute('value', 'Shopping');
-//     categoryShopping.setAttribute('name', 'Shopping');
-//     const categoryGarden = document.createElement("option");
-//     categoryGarden.setAttribute('value', 'Garden');
-//     categoryGarden.setAttribute('name', 'Garden');
-//      if (category === 'Work') {categoryWork.selected}
-//       else if (category === 'Personal') {categoryPersonal.selected}
-//         else if (category === 'Shopping') {categoryShopping.selected}
-//           else (category === 'Garden') {categoryGarden.selected}
-//   category.appendChild(categoryWork);
-//   category.appendChild(categoryPersonal);
-//   category.appendChild(categoryShopping);
-//   category.appendChild(categoryGarden);
-
-//   displayEditTask();
-// }
-
 if (newTaskForm) {
 
 function displayTaskList() {
@@ -229,34 +159,11 @@ newTaskForm.addEventListener("submit", (event) => {
   createNewTask(event);
   });
 
-myModal.addEventListener('shown.bs.modal', () => {
-  myInput.focus()
-})
-
-
+// myModal.addEventListener('shown.bs.modal', () => {
+//   myInput.focus()
+// });
 
 displayTaskList();
 
 }
-
-
-
-
-
-// function displayTaskList() {
-
-//   taskEditSpot.innerHTML = "";
-
-//   editTask();  
-
-// }
-// $('#myModal').on('shown.bs.modal', function () {
-//   $('#myInput').trigger('focus')
-// })
-
-
-// 1) explain task list in html. (in bootstrap is a table component)
-// 2) Delete button
-// 3) edit button
-// 4) make the modal working.
 
