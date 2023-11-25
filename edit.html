@@ -106,8 +106,10 @@
     			editCategory.children[i].selected = true;
     		}
     	}
-    // const saveButton = document.getElementById('saveButton')
-    // 	saveButton.href = 'testmodal.html';
+    const saveButton = document.getElementById('saveButton')
+    	saveButton.addEventListener('click', () => {
+  window.open('testmodal.html');
+});
 
     
 editTaskForm.addEventListener("submit", (event) => {

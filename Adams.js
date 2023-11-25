@@ -1,9 +1,7 @@
 const newTaskForm = document.getElementById('newTaskForm');
 const taskListBody = document.getElementById('taskListBody');
 const taskEditSpot = document.getElementById('taskEditSpot');
-// const myModal = document.getElementById('myModal')
-// const myInput = document.getElementById('myInput')
-
+// const modalFooter = document.getElementById('modalFooter')
 
  function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tasks'));
@@ -82,8 +80,8 @@ function saveEditTask(event, taskIdToEdit) {
         priority = 'High' 
     } 
   const category = event.target.editCategory.value;
-  const saveButton = document.getElementById('saveButton');
-    saveButton.href = 'testmodal.html';
+  // const saveButton = document.getElementById('saveButton');
+  //   saveButton.href = `testmodal.html`;
 
   const taskToEdit = getTaskById(taskIdToEdit);
   taskToEdit.taskName = taskName;
@@ -102,6 +100,31 @@ function createTaskListRow(task, taskId) {
   const idCell = document.createElement("th");
   idCell.textContent = task.taskId;
   row.appendChild(idCell);
+  const statusRadiosCell = document.createElement('th');
+    const statusRadiosToDo = document.createElement('div');
+      const statusRadiosToDoInput = document.createElement('input');
+      statusRadiosToDoInput.classList.add("form-check-input", "radio", 'radio1');
+      const statusRadiosToDoLabel = document.createElement('label');
+      statusRadiosToDoLabel.setAttribute('radio1', 'To Do');
+    statusRadiosToDo.appendChild(statusRadiosToDoInput);
+    statusRadiosToDo.appendChild(statusRadiosToDoLabel);
+    const statusRadiosWorking = document.createElement('div');
+      const statusRadiosWorkingInput = document.createElement('input');
+      statusRadiosWorkingInput.classList.add("form-check-input", "radio", 'radio2');
+      const statusRadiosWorkingLabel = document.createElement('label');
+      statusRadiosWorkingLabel.setAttribute('radio2', 'On it');
+    statusRadiosWorking.appendChild(statusRadiosWorkingInput);
+    statusRadiosWorking.appendChild(statusRadiosWorkingLabel);
+    const statusRadiosDone = document.createElement('div');
+      const statusRadiosDoneInput = document.createElement('input');
+      statusRadiosDoneInput.classList.add("form-check-input", "radio", 'radio3');
+      const statusRadiosDoneLabel = document.createElement('label');
+      statusRadiosDoneLabel.setAttribute('radio3', 'Done');
+    statusRadiosDone.appendChild(statusRadiosDoneInput);
+    statusRadiosDone.appendChild(statusRadiosDoneLabel);
+  statusRadiosCell.appendChild(statusRadiosToDo);
+  statusRadiosCell.appendChild(statusRadiosWorking);
+  statusRadiosCell.appendChild(statusRadiosDone);
   const taskName = document.createElement("td");
   taskName.textContent = task.taskName;
   row.appendChild(taskName);
@@ -130,7 +153,6 @@ function createTaskListRow(task, taskId) {
     deleteButton.textContent = "Not up for it!";
     deleteButton.addEventListener("click", () => {
         deleteTask(task.taskId);
-        // displayTaskList();
     });
 
     const deleteCell = document.createElement("td");
@@ -159,9 +181,13 @@ newTaskForm.addEventListener("submit", (event) => {
   createNewTask(event);
   });
 
-// myModal.addEventListener('shown.bs.modal', () => {
-//   myInput.focus()
+// if (modalFooter) {
+
+// modalFooter.addEventListener('submit', (event) => {
+//   createNewTask(event);
 // });
+
+// }
 
 displayTaskList();
 
