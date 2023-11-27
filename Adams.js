@@ -170,10 +170,12 @@ function createTaskListRow(task, taskId) {
 function prioritySort(event) {
   event.preventDefault();
   const existingTasks = getTasksFromLocalStorage();
-  const existingTasksHighId = existingTasks.findIndex(task => task.priority === 'High');
-  const existingTasksMediumId = existingTasks.findIndex(task => task.priority === 'Medium');
-  const existingTasksLowId = existingTasks.findIndex(task => task.priority === 'Low');
-  const priorityOrder = [{existingTasks[existingTasksHighId]}, {existingTasks[existingTasksMediumId]}, {existingTasks[existingTasksLowId]}];
+  const existingTasksHigh = existingTasks.filter(task => task.priority === 'High');
+  const existingTasksMedium = existingTasks.filter(task => task.priority === 'Medium');
+  const existingTasksLow = existingTasks.filter(task => task.priority === 'Low');
+  const priorityOrder = {existingTasksHigh, existingTasksMedium, existingTasksLow};
+
+  // const priorityOrder = [{existingTasks[existingTasksHighId]}, {existingTasks[existingTasksMediumId]}, {existingTasks[existingTasksLowId]}];
 
   taskListBody.innerHTML = "";
 
@@ -229,6 +231,3 @@ prioritySortButton.addEventListener("onclick", (event) => {
 // }
 
 displayTaskList();
-
-}
-
