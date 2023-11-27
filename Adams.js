@@ -2,6 +2,7 @@ const newTaskForm = document.getElementById('newTaskForm');
 const taskListBody = document.getElementById('taskListBody');
 const taskEditSpot = document.getElementById('taskEditSpot');
 // const modalFooter = document.getElementById('modalFooter')
+const prioritySortButton = document.getElementById('prioritySortButton');
 
  function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tasks'));
@@ -102,7 +103,7 @@ function createTaskListRow(task, taskId) {
   row.appendChild(idCell);
   const statusRadiosCell = document.createElement('th');
     const statusRadiosToDo = document.createElement('div');
-      const statusRadiosToDoInput = document.createElement('input');
+      const statusRadiosToDoInput = document.createElement('input') ;
       statusRadiosToDoInput.classList.add("form-check-input", "radio", 'radio1');
       const statusRadiosToDoLabel = document.createElement('label');
       statusRadiosToDoLabel.setAttribute('radio1', 'To Do');
@@ -125,6 +126,7 @@ function createTaskListRow(task, taskId) {
   statusRadiosCell.appendChild(statusRadiosToDo);
   statusRadiosCell.appendChild(statusRadiosWorking);
   statusRadiosCell.appendChild(statusRadiosDone);
+  row.appendChild(statusRadiosCell);
   const taskName = document.createElement("td");
   taskName.textContent = task.taskName;
   row.appendChild(taskName);
@@ -162,6 +164,39 @@ function createTaskListRow(task, taskId) {
   return row;
 }
 
+
+//Sort functions
+
+function prioritySort(event) {
+  event.preventDefault();
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksHighId = existingTasks.findIndex(task => task.priority === 'High');
+  const existingTasksMediumId = existingTasks.findIndex(task => task.priority === 'Medium');
+  const existingTasksLowId = existingTasks.findIndex(task => task.priority === 'Low');
+  const priorityOrder = [{existingTasks[existingTasksHighId]}, {existingTasks[existingTasksMediumId]}, {existingTasks[existingTasksLowId]}];
+
+  taskListBody.innerHTML = "";
+
+    priorityOrder.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+if (newTaskForm) {
+
+function displayTaskList() {
+
+  taskListBody.innerHTML = "";
+
+  const existingTasks = getTasksFromLocalStorage();
+
+    existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
 if (newTaskForm) {
 
 function displayTaskList() {
@@ -180,6 +215,10 @@ function displayTaskList() {
 newTaskForm.addEventListener("submit", (event) => {
   createNewTask(event);
   });
+
+prioritySortButton.addEventListener("onclick", (event) => {
+  prioritySort(event);
+});
 
 // if (modalFooter) {
 
