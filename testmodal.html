@@ -33,7 +33,21 @@
 			      <th scope="col" class="col-sm-2">Name</th>
 			      <th scope="col" class="col-sm-2">Description</th>
 			      <th scope="col" class="col-sm-2">Due date</th>
-			      <th scope="col" class="col-sm-2"><button id='prioritySortButton'>Priority</button></th>
+			      <th scope="col" class="col-sm-2">
+			      	<!-- Example split danger button -->
+							<div class="btn-group">
+							  <button type="button" class="btn btn-danger">Priority</button>
+							  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+							    <span class="visually-hidden">Toggle Dropdown</span>
+							  </button>
+							  <ul class="dropdown-menu">
+							    <li><button class="dropdown-item" type='button' id='prioritySortButton'>High to Low</button></li>
+							    <li><button class="dropdown-item" type='button' id='prioritySortButtonUp'>Low to High</button></li>
+							    <li><button class="dropdown-item" type='button' id='prioritySortButtonOff'>Off</button></li>
+							  </ul>
+							</div>
+			      	<!-- <button id='prioritySortButton' type="button">Priority</button> -->
+			      </th>
 			      <th scope="col" class="col-sm-2">Category</th>
 			      <th scope="col" class="col-sm-1">Edit</th>
 			      <th scope="col" class="col-sm-1">Delete</th>

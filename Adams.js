@@ -1,8 +1,12 @@
 const newTaskForm = document.getElementById('newTaskForm');
 const taskListBody = document.getElementById('taskListBody');
 const taskEditSpot = document.getElementById('taskEditSpot');
-// const modalFooter = document.getElementById('modalFooter')
 const prioritySortButton = document.getElementById('prioritySortButton');
+const prioritySortButtonUp = document.getElementById('prioritySortButtonUp');
+const prioritySortButtonOff = document.getElementById('prioritySortButtonOff');
+const radioStatusToDo = document.getElementById('toDo');
+const radioStatusWorking = document.getElementById('working');
+const radioStatusDone = document.getElementById('done');
 
  function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tasks'));
@@ -34,6 +38,12 @@ saveTasksToLocalStorage(existingTasks);
     }
 }
 
+// function statusToStorage(event) {
+//   const existingTasks = getTasksFromLocalStorage();
+//   const newStatus =
+//   const newStatusId =
+// }
+
 function deleteTask(taskId) {
   const existingTasks = getTasksFromLocalStorage();
   const indexOfTaskToDelete = existingTasks.findIndex(task => task.taskId === taskId);
@@ -47,6 +57,7 @@ function deleteTask(taskId) {
 function createNewTask(event) {
   event.preventDefault();
     const taskName = event.target.inputTask.value;
+    const status = 'toDo';
     const description = event.target.elements.inputDescription.value;
     const dueDate = event.target.elements.inputDueDate.value;
     let priority = '';
@@ -60,7 +71,7 @@ function createNewTask(event) {
         priority = 'High' 
       } 
     const category = event.target.category.value;
-    const task = {'taskId': Date.now(), 'taskName': taskName,  'description': description, 'dueDate': dueDate,'priority': priority, 'category': category} 
+    const task = {'taskId': Date.now(), 'status': status, 'taskName': taskName,  'description': description, 'dueDate': dueDate,'priority': priority, 'category': category} 
     pushTaskToLocalStorage(task);
     displayTaskList();  
 }
@@ -101,81 +112,132 @@ function createTaskListRow(task, taskId) {
   const idCell = document.createElement("th");
   idCell.textContent = task.taskId;
   row.appendChild(idCell);
+
   const statusRadiosCell = document.createElement('th');
-    const statusRadiosToDo = document.createElement('div');
+    
+    const statusRadiosToDoDiv = document.createElement('div');
+    statusRadiosToDoDiv.classList.add('from-check');
+
       const statusRadiosToDoInput = document.createElement('input') ;
-      statusRadiosToDoInput.classList.add("form-check-input", "radio", 'radio1');
+      statusRadiosToDoInput.type = 'radio';
+      statusRadiosToDoInput.value = '';
+      statusRadiosToDoInput.name = 'statusRadios';
+      statusRadiosToDoInput.id = 'toDo';
+      statusRadiosToDoInput.classList.add("form-check-input");
+
       const statusRadiosToDoLabel = document.createElement('label');
-      statusRadiosToDoLabel.setAttribute('radio1', 'To Do');
-    statusRadiosToDo.appendChild(statusRadiosToDoInput);
-    statusRadiosToDo.appendChild(statusRadiosToDoLabel);
-    const statusRadiosWorking = document.createElement('div');
-      const statusRadiosWorkingInput = document.createElement('input');
-      statusRadiosWorkingInput.classList.add("form-check-input", "radio", 'radio2');
+      statusRadiosToDoLabel.classList.add('form-check-label');
+      statusRadiosToDoLabel.for = 'toDo';
+      statusRadiosToDoLabel.innerHTML = 'To Do!';
+
+    statusRadiosToDoDiv.appendChild(statusRadiosToDoInput);
+    statusRadiosToDoDiv.appendChild(statusRadiosToDoLabel);
+   
+    const statusRadiosWorkingDiv = document.createElement('div');
+    statusRadiosWorkingDiv.classList.add('from-check');
+
+      const statusRadiosWorkingInput = document.createElement('input') ;
+      statusRadiosWorkingInput.type = 'radio';
+      statusRadiosWorkingInput.value = '';
+      statusRadiosWorkingInput.name = 'statusRadios';
+      statusRadiosWorkingInput.id = 'working';
+      statusRadiosWorkingInput.classList.add("form-check-input");
+
       const statusRadiosWorkingLabel = document.createElement('label');
-      statusRadiosWorkingLabel.setAttribute('radio2', 'On it');
-    statusRadiosWorking.appendChild(statusRadiosWorkingInput);
-    statusRadiosWorking.appendChild(statusRadiosWorkingLabel);
-    const statusRadiosDone = document.createElement('div');
-      const statusRadiosDoneInput = document.createElement('input');
-      statusRadiosDoneInput.classList.add("form-check-input", "radio", 'radio3');
+      statusRadiosWorkingLabel.classList.add('form-check-label');
+      statusRadiosWorkingLabel.for = 'working';
+      statusRadiosWorkingLabel.innerHTML = 'Doing it!';
+
+    statusRadiosWorkingDiv.appendChild(statusRadiosWorkingInput);
+    statusRadiosWorkingDiv.appendChild(statusRadiosWorkingLabel);
+
+    const statusRadiosDoneDiv = document.createElement('div');
+    statusRadiosDoneDiv.classList.add('from-check');
+
+      const statusRadiosDoneInput = document.createElement('input') ;
+      statusRadiosDoneInput.type = 'radio';
+      statusRadiosDoneInput.value = '';
+      statusRadiosDoneInput.name = 'statusRadios';
+      statusRadiosDoneInput.id = 'done';
+      statusRadiosDoneInput.classList.add("form-check-input");
+
       const statusRadiosDoneLabel = document.createElement('label');
-      statusRadiosDoneLabel.setAttribute('radio3', 'Done');
-    statusRadiosDone.appendChild(statusRadiosDoneInput);
-    statusRadiosDone.appendChild(statusRadiosDoneLabel);
-  statusRadiosCell.appendChild(statusRadiosToDo);
-  statusRadiosCell.appendChild(statusRadiosWorking);
-  statusRadiosCell.appendChild(statusRadiosDone);
+      statusRadiosDoneLabel.classList.add('form-check-label');
+      statusRadiosDoneLabel.for = 'done';
+      statusRadiosDoneLabel.innerHTML = 'Done!';
+
+    statusRadiosDoneDiv.appendChild(statusRadiosDoneInput);
+    statusRadiosDoneDiv.appendChild(statusRadiosDoneLabel);
+
+  statusRadiosCell.appendChild(statusRadiosToDoDiv);
+  statusRadiosCell.appendChild(statusRadiosWorkingDiv);
+  statusRadiosCell.appendChild(statusRadiosDoneDiv);
   row.appendChild(statusRadiosCell);
+
   const taskName = document.createElement("td");
   taskName.textContent = task.taskName;
   row.appendChild(taskName);
+
   const description = document.createElement("td");
   description.textContent = task.description;
   row.appendChild(description);
+
   const dueDate = document.createElement("td");
   dueDate.textContent = task.dueDate; 
   row.appendChild(dueDate);
+
   const priority = document.createElement("td");
   priority.textContent = task.priority;
   row.appendChild(priority);
+
   const category = document.createElement("td");
   category.textContent = task.category;
   row.appendChild(category);
+
   const editButton = document.createElement("a");
     editButton.classList.add("btn", "btn-primary", "btn-sm");
     editButton.textContent = "Do it differently!";
     editButton.href = `edit.html?id=${task.taskId}`;
-    const editCell = document.createElement("td");
+
+  const editCell = document.createElement("td");
     editCell.appendChild(editButton);
     row.appendChild(editCell);
 
-    const deleteButton = document.createElement("button");
+  const deleteButton = document.createElement("button");
     deleteButton.classList.add("btn", "btn-danger",);
     deleteButton.textContent = "Not up for it!";
     deleteButton.addEventListener("click", () => {
         deleteTask(task.taskId);
     });
 
-    const deleteCell = document.createElement("td");
+  const deleteCell = document.createElement("td");
     deleteCell.appendChild(deleteButton);
     row.appendChild(deleteCell);
 
   return row;
 }
 
+function displayTaskList() {
+
+  taskListBody.innerHTML = "";
+
+  const existingTasks = getTasksFromLocalStorage();
+
+    existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
 
 //Sort functions
 
 function prioritySort(event) {
-  event.preventDefault();
   const existingTasks = getTasksFromLocalStorage();
   const existingTasksHigh = existingTasks.filter(task => task.priority === 'High');
   const existingTasksMedium = existingTasks.filter(task => task.priority === 'Medium');
   const existingTasksLow = existingTasks.filter(task => task.priority === 'Low');
-  const priorityOrder = {existingTasksHigh, existingTasksMedium, existingTasksLow};
-
-  // const priorityOrder = [{existingTasks[existingTasksHighId]}, {existingTasks[existingTasksMediumId]}, {existingTasks[existingTasksLowId]}];
+  const priorityOrder = existingTasksHigh.concat(existingTasksMedium, existingTasksLow);
 
   taskListBody.innerHTML = "";
 
@@ -185,49 +247,97 @@ function prioritySort(event) {
     });  
 }
 
-if (newTaskForm) {
-
-function displayTaskList() {
+function prioritySortUp(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksHigh = existingTasks.filter(task => task.priority === 'High');
+  const existingTasksMedium = existingTasks.filter(task => task.priority === 'Medium');
+  const existingTasksLow = existingTasks.filter(task => task.priority === 'Low');
+  const priorityOrder = existingTasksLow.concat(existingTasksMedium, existingTasksHigh);
 
   taskListBody.innerHTML = "";
 
-  const existingTasks = getTasksFromLocalStorage();
-
-    existingTasks.forEach(task => {
+    priorityOrder.forEach(task => {
       const taskRow = createTaskListRow(task);
       taskListBody.appendChild(taskRow)
     });  
 }
 
-if (newTaskForm) {
-
-function displayTaskList() {
+function prioritySortOff(event) {
+  const priorityOrder = getTasksFromLocalStorage();
 
   taskListBody.innerHTML = "";
 
-  const existingTasks = getTasksFromLocalStorage();
+    priorityOrder.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
 
-    existingTasks.forEach(task => {
+function statusSort(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksToDo = existingTasks.filter(task => task.status === 'toDo');
+  const existingTasksWorking = existingTasks.filter(task => task.status === 'working');
+  const existingTasksDone = existingTasks.filter(task => task.status === 'done');
+  const statusOrder = existingTasksToDo.concat(existingTasksWorking, existingTasksDone);
+
+  taskListBody.innerHTML = "";
+
+    statusOrder.forEach(task => {
       const taskRow = createTaskListRow(task);
       taskListBody.appendChild(taskRow)
     });  
 }
 
 
-newTaskForm.addEventListener("submit", (event) => {
-  createNewTask(event);
+if (newTaskForm) {
+  newTaskForm.addEventListener("submit", (event) => {
+    createNewTask(event);
   });
+}
 
-prioritySortButton.addEventListener("onclick", (event) => {
-  prioritySort(event);
-});
+if (prioritySortButton) {
+  prioritySortButton.addEventListener("click", (event) => {
+    prioritySort(event);
+  });
+}
 
-// if (modalFooter) {
+if (prioritySortButtonUp) {
+  prioritySortButtonUp.addEventListener("click", (event) => {
+    prioritySortUp(event);
+  });
+}
 
-// modalFooter.addEventListener('submit', (event) => {
-//   createNewTask(event);
-// });
+if (prioritySortButtonOff) {
+  prioritySortButtonOff.addEventListener("click", (event) => {
+    prioritySortOff(event);
+  });
+}
 
-// }
+if (radioStatusToDo) {
+  radioStatusToDo.addEventListener('click', (event) => {
+    statusToStorage(event);
+    statusSort();
+  });
+}
 
-displayTaskList();
+if (radioStatusWorking) {
+  radioStatusWorking.addEventListener('click', (event) => {
+    statusToStorage(event);
+    statusSort();
+  });
+}
+
+if (radioStatusDone) {
+  radioStatusDone.addEventListener('click', (event) => {
+    statusToStorage(event);
+    statusSort();
+  });
+}
+
+if (taskListBody) {
+  displayTaskList();
+} 
+
+
+
+
