@@ -34,15 +34,16 @@ function saveEditTaskToLocalStorage(taskToEdit) {
   if (indexOfTaskToEdit !== -1) {
       existingTasks.splice(indexOfTaskToEdit, 1, taskToEdit);
 saveTasksToLocalStorage(existingTasks);
-
     }
 }
 
-// function statusToStorage(event) {
-//   const existingTasks = getTasksFromLocalStorage();
-//   const newStatus =
-//   const newStatusId =
-// }
+function statusToStorage(taskId, status) {
+  const taskToEdit = getTaskById(taskId);
+  taskToEdit.status = status;
+  console.log(getTasksFromLocalStorage());
+  saveEditTaskToLocalStorage(taskToEdit);
+  console.log(getTasksFromLocalStorage());
+}
 
 function deleteTask(taskId) {
   const existingTasks = getTasksFromLocalStorage();
@@ -119,11 +120,16 @@ function createTaskListRow(task, taskId) {
     statusRadiosToDoDiv.classList.add('from-check');
 
       const statusRadiosToDoInput = document.createElement('input') ;
+      statusRadiosToDoInput.checked = task.status === 'toDo';
       statusRadiosToDoInput.type = 'radio';
-      statusRadiosToDoInput.value = '';
-      statusRadiosToDoInput.name = 'statusRadios';
-      statusRadiosToDoInput.id = 'toDo';
+      statusRadiosToDoInput.value = 'toDo';
+      statusRadiosToDoInput.name = `statusRadios?id=${task.taskId}`;
+      statusRadiosToDoInput.id = `radioButtonIdToDo?id=${task.taskId}`;
       statusRadiosToDoInput.classList.add("form-check-input");
+      statusRadiosToDoInput.addEventListener('click', (event) => {
+        statusToStorage(task.taskId, 'toDo');
+       // statusSort();
+       });
 
       const statusRadiosToDoLabel = document.createElement('label');
       statusRadiosToDoLabel.classList.add('form-check-label');
@@ -137,11 +143,15 @@ function createTaskListRow(task, taskId) {
     statusRadiosWorkingDiv.classList.add('from-check');
 
       const statusRadiosWorkingInput = document.createElement('input') ;
+      statusRadiosWorkingInput.checked = task.status === 'working';
       statusRadiosWorkingInput.type = 'radio';
-      statusRadiosWorkingInput.value = '';
-      statusRadiosWorkingInput.name = 'statusRadios';
-      statusRadiosWorkingInput.id = 'working';
+      statusRadiosWorkingInput.value = 'working';
+      statusRadiosWorkingInput.name = `statusRadios?id=${task.taskId}`;
+      statusRadiosWorkingInput.id = `radioButtonworking?id=${task.taskId}`;
       statusRadiosWorkingInput.classList.add("form-check-input");
+      statusRadiosWorkingInput.addEventListener('click', (event) => {
+        statusToStorage(task.taskId, 'working');
+        });
 
       const statusRadiosWorkingLabel = document.createElement('label');
       statusRadiosWorkingLabel.classList.add('form-check-label');
@@ -155,11 +165,15 @@ function createTaskListRow(task, taskId) {
     statusRadiosDoneDiv.classList.add('from-check');
 
       const statusRadiosDoneInput = document.createElement('input') ;
+      statusRadiosDoneInput.checked = task.status === 'Done';
       statusRadiosDoneInput.type = 'radio';
-      statusRadiosDoneInput.value = '';
-      statusRadiosDoneInput.name = 'statusRadios';
-      statusRadiosDoneInput.id = 'done';
+      statusRadiosDoneInput.value = 'done';
+      statusRadiosDoneInput.name = `statusRadios?id=${task.taskId}`;
+      statusRadiosDoneInput.id = `radioButtonDone?id=${task.taskId}`;
       statusRadiosDoneInput.classList.add("form-check-input");
+      statusRadiosDoneInput.addEventListener('click', (event) => {
+        statusToStorage(task.taskId, 'Done');
+        });
 
       const statusRadiosDoneLabel = document.createElement('label');
       statusRadiosDoneLabel.classList.add('form-check-label');
@@ -313,26 +327,28 @@ if (prioritySortButtonOff) {
   });
 }
 
-if (radioStatusToDo) {
-  radioStatusToDo.addEventListener('click', (event) => {
-    statusToStorage(event);
-    statusSort();
-  });
-}
+// if (radioStatusToDo) {
+//   console.log('Button Works');
+//   radioStatusToDo.addEventListener('click', (event) => {
+//     console.log('event Works');
+//     statusToStorage(event);
+//     statusSort();
+//   });
+// }
 
-if (radioStatusWorking) {
-  radioStatusWorking.addEventListener('click', (event) => {
-    statusToStorage(event);
-    statusSort();
-  });
-}
+// if (radioStatusWorking) {
+//   radioStatusWorking.addEventListener('click', (event) => {
+//     statusToStorage(event);
+//     statusSort();
+//   });
+// }
 
-if (radioStatusDone) {
-  radioStatusDone.addEventListener('click', (event) => {
-    statusToStorage(event);
-    statusSort();
-  });
-}
+// if (radioStatusDone) {
+//   radioStatusDone.addEventListener('click', (event) => {
+//     statusToStorage(event);
+//     statusSort();
+//   });
+// }
 
 if (taskListBody) {
   displayTaskList();

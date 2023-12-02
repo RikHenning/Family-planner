@@ -65,13 +65,14 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
+  	<form id='newTaskForm'>
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Next gruesome Task</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id='newTaskForm'>
+      
 				  <div class="form-group row">
 				    <label for="inputTask" class="col-sm-2 col-form-label">New Task</label>
 				    <div class="col-sm-10">
@@ -124,19 +125,22 @@
 					</select>
 
 				    <div class="col-sm-10">
-				    	<button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Do this thing!</button>
+				    	<!-- <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Do this thing!</button> -->
 				      <!-- <button type="submit" class="btn btn-primary">Create New Task</button> -->
 				    </div>
 				  </div>
 				 
-				</form>
+				<!-- </form> -->
 
       </div>
-      <!-- <div class="modalFooter"> -->
-        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <div class="modalFooter">
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Create new task</button>
         
-      </div> -->
+      </div>
+    
+
     </div>
+  		</form>
   </div>
 </div>
 
