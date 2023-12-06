@@ -11,6 +11,7 @@ const statusToDoSortButton = document.getElementById('statusToDoSortButton');
 const statusWorkingSortButton = document.getElementById('statusWorkingSortButton');
 const statusDoneSortButton = document.getElementById('statusDoneSortButton');
 const searchBar = document.getElementById('searchBar');
+// const { parse, format } = require('date-fns');
 
  function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tasks'));
@@ -344,6 +345,8 @@ function searchTask(event) {
   event.preventDefault();
   const existingTasks = getTasksFromLocalStorage();
   const input = event.target.searchQuery.value;
+  // const outputDueDateFormat = 'yyyy-MM-dd';
+  // const dueDateFormats = parseDate(input, outputDueDateFormat);
   const searchResult = existingTasks.filter(task => {
   return task.taskName.includes(input) || 
          task.description.includes(input) || 
@@ -360,6 +363,21 @@ if (searchResult !== "") {
     });  
   }
 }
+
+// function parseDate(input, outputDueDateFormat) {
+//   const formats = ['dd/MM/yyyy', 'yyyy/MM/dd', 'MM/dd/yyyy', 'yyyy/dd/MM', 'dd-MM-yyyy', 'yyyy-MM-dd', 'MM-dd-yyyy', 'yyyy-dd-MM'];
+
+//   for (const format of formats) {
+//     const parsedDate = parse(input, format, new Date(), { awareOfUnicodeTokens: true });
+
+//     if (!isNaN(parsedDate)) {
+//       return format(parsedDate, outputFormat);
+//     }
+//   }
+
+//   return null; // Return null if no valid date format is found
+// }
+
 
 if (searchBar) {
   searchBar.addEventListener("submit", (event) => {
