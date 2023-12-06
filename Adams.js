@@ -7,6 +7,10 @@ const prioritySortButtonOff = document.getElementById('prioritySortButtonOff');
 const radioStatusToDo = document.getElementById('toDo');
 const radioStatusWorking = document.getElementById('working');
 const radioStatusDone = document.getElementById('done');
+const statusToDoSortButton = document.getElementById('statusToDoSortButton');
+const statusWorkingSortButton = document.getElementById('statusWorkingSortButton');
+const statusDoneSortButton = document.getElementById('statusDoneSortButton');
+const searchBar = document.getElementById('searchBar');
 
  function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tasks'));
@@ -128,7 +132,7 @@ function createTaskListRow(task, taskId) {
       statusRadiosToDoInput.classList.add("form-check-input");
       statusRadiosToDoInput.addEventListener('click', (event) => {
         statusToStorage(task.taskId, 'toDo');
-       // statusSort();
+        statusSort();
        });
 
       const statusRadiosToDoLabel = document.createElement('label');
@@ -151,6 +155,7 @@ function createTaskListRow(task, taskId) {
       statusRadiosWorkingInput.classList.add("form-check-input");
       statusRadiosWorkingInput.addEventListener('click', (event) => {
         statusToStorage(task.taskId, 'working');
+        statusSort();
         });
 
       const statusRadiosWorkingLabel = document.createElement('label');
@@ -165,14 +170,15 @@ function createTaskListRow(task, taskId) {
     statusRadiosDoneDiv.classList.add('from-check');
 
       const statusRadiosDoneInput = document.createElement('input') ;
-      statusRadiosDoneInput.checked = task.status === 'Done';
+      statusRadiosDoneInput.checked = task.status === 'done';
       statusRadiosDoneInput.type = 'radio';
       statusRadiosDoneInput.value = 'done';
       statusRadiosDoneInput.name = `statusRadios?id=${task.taskId}`;
       statusRadiosDoneInput.id = `radioButtonDone?id=${task.taskId}`;
       statusRadiosDoneInput.classList.add("form-check-input");
       statusRadiosDoneInput.addEventListener('click', (event) => {
-        statusToStorage(task.taskId, 'Done');
+        statusToStorage(task.taskId, 'done');
+        statusSort();
         });
 
       const statusRadiosDoneLabel = document.createElement('label');
@@ -302,6 +308,64 @@ function statusSort(event) {
     });  
 }
 
+function statusSortWorking(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksToDo = existingTasks.filter(task => task.status === 'toDo');
+  const existingTasksWorking = existingTasks.filter(task => task.status === 'working');
+  const existingTasksDone = existingTasks.filter(task => task.status === 'done');
+  const statusOrder = existingTasksWorking.concat(existingTasksToDo, existingTasksDone);
+
+  taskListBody.innerHTML = "";
+
+    statusOrder.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+function statusSortDone(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksToDo = existingTasks.filter(task => task.status === 'toDo');
+  const existingTasksWorking = existingTasks.filter(task => task.status === 'working');
+  const existingTasksDone = existingTasks.filter(task => task.status === 'done');
+  const statusOrder = existingTasksDone.concat(existingTasksWorking, existingTasksToDo);
+
+  taskListBody.innerHTML = "";
+
+    statusOrder.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+// search functions
+
+function searchTask(event) {
+  event.preventDefault();
+  const existingTasks = getTasksFromLocalStorage();
+  const input = event.target.searchQuery.value;
+  const searchResult = existingTasks.filter(task => {
+  return task.taskName.includes(input) || 
+         task.description.includes(input) || 
+         task.dueDate.includes(input);
+});
+
+  taskListBody.innerHTML = "";
+
+if (searchResult !== "") {
+    console.log(searchResult);
+    searchResult.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+  }
+}
+
+if (searchBar) {
+  searchBar.addEventListener("submit", (event) => {
+    searchTask(event);
+  });
+}
 
 if (newTaskForm) {
   newTaskForm.addEventListener("submit", (event) => {
@@ -327,28 +391,23 @@ if (prioritySortButtonOff) {
   });
 }
 
-// if (radioStatusToDo) {
-//   console.log('Button Works');
-//   radioStatusToDo.addEventListener('click', (event) => {
-//     console.log('event Works');
-//     statusToStorage(event);
-//     statusSort();
-//   });
-// }
+if (statusToDoSortButton) {
+  statusToDoSortButton.addEventListener("click", (event) => {
+    statusSort(event);
+  });
+}
 
-// if (radioStatusWorking) {
-//   radioStatusWorking.addEventListener('click', (event) => {
-//     statusToStorage(event);
-//     statusSort();
-//   });
-// }
+if (statusWorkingSortButton) {
+  statusWorkingSortButton.addEventListener("click", (event) => {
+    statusSortWorking(event);
+  });
+}
 
-// if (radioStatusDone) {
-//   radioStatusDone.addEventListener('click', (event) => {
-//     statusToStorage(event);
-//     statusSort();
-//   });
-// }
+if (statusDoneSortButton) {
+  statusDoneSortButton.addEventListener("click", (event) => {
+    statusSortDone(event);
+  });
+}
 
 if (taskListBody) {
   displayTaskList();
