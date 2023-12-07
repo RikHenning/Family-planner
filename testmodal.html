@@ -10,13 +10,16 @@
 	<title>testmodal</title>
 </head>
 <body>
+	<!-- <p style="background-image: url('halloween-23439_1280.png');"> -->
 	<div class="container px-2">
 		<div class="Container">
-			<div class="col-lg-2">
-				
-			</div>
-			<div class="col-lg-10">
-				<h1>Adam's Family Task List</h1>
+			<div class="row">
+				<div class="col-lg-2">
+					<img src="halloween-23439_1280.png" alt="Halloween Pumpkin" class="col-md-4">
+				</div>
+				<div class="col-lg-10">
+					<h1>Adam's Family Task List</h1>
+				</div>
 			</div>
 		</div>
 		
@@ -43,8 +46,8 @@
 				      <!-- <th scope="col" class="col-sm-1">#</th>	 -->
 				      <th scope="col" class="col-sm-1">
 				      <div class="btn-group">
-								  <button type="button" class="btn btn-danger btn-sm">Status</button>
-								  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+								  <button type="button" class="btn btn-outline-secondary">Status</button>
+								  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
 								    <span class="visually-hidden">Toggle Dropdown</span>
 								  </button>
 								  <ul class="dropdown-menu">
@@ -54,13 +57,24 @@
 								  </ul>
 								</div>
 							</th>
-				      <th scope="col" class="col-sm-2">Name</th>
+				      <th scope="col" class="col-sm-2">
+				      <div class="btn-group">
+								  <button type="button" class="btn btn-outline-secondary">Name</button>
+								  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+								    <span class="visually-hidden">Toggle Dropdown</span>
+								  </button>
+								  <ul class="dropdown-menu">
+								    <li><button class="dropdown-item" type='button' id='nameSortButtonUp'>Up</button></li>
+								    <li><button class="dropdown-item" type='button' id='nameSortButtonDown'>Down</button></li>
+								  </ul>
+								</div>
+							</th>
 				      <th scope="col" class="col-sm-2">Description</th>
 				      <th scope="col" class="col-sm-2">Due date</th>
 				      <th scope="col" class="col-sm-1">
 								<div class="btn-group">
-								  <button type="button" class="btn btn-danger btn-sm">Priority</button>
-								  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+								  <button type="button" class="btn btn-outline-secondary">Priority</button>
+								  <button type="button" class="btn btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
 								    <span class="visually-hidden">Toggle Dropdown</span>
 								  </button>
 								  <ul class="dropdown-menu">

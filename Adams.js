@@ -11,6 +11,8 @@ const statusToDoSortButton = document.getElementById('statusToDoSortButton');
 const statusWorkingSortButton = document.getElementById('statusWorkingSortButton');
 const statusDoneSortButton = document.getElementById('statusDoneSortButton');
 const searchBar = document.getElementById('searchBar');
+const nameSortButtonUp = document.getElementById('nameSortButtonUp');
+const nameSortButtonDown = document.getElementById('nameSortButtonDown');
 // const { parse, format } = require('date-fns');
 
  function getTasksFromLocalStorage() {
@@ -339,6 +341,19 @@ function statusSortDone(event) {
     });  
 }
 
+function nameSort(event) {
+  const existingTasks = getTasksFromLocalStorage();
+    existingTasks.sort(existingTasks.taskName);
+    // existingTasks.forEach(task => task.taskName.sort());
+    // existingTasks.sort((a, b) => a.taskName.localeCompare(b.taskName)); suggestion Chat GPT doesn't work
+    taskListBody.innerHTML = "";
+
+  existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
 // search functions
 
 function searchTask(event) {
@@ -348,9 +363,14 @@ function searchTask(event) {
   // const outputDueDateFormat = 'yyyy-MM-dd';
   // const dueDateFormats = parseDate(input, outputDueDateFormat);
   const searchResult = existingTasks.filter(task => {
-  return task.taskName.includes(input) || 
-         task.description.includes(input) || 
-         task.dueDate.includes(input);
+    const inputLower = input.toLowerCase();
+    const taskNameLower = task.taskName.toLowerCase();
+    const descriptionLower = task.description.toLowerCase();
+    const dueDateLower = task.dueDate.toLowerCase();
+
+  return taskNameLower.includes(inputLower) || 
+         descriptionLower.includes(inputLower) || 
+         dueDateLower.includes(inputLower);
 });
 
   taskListBody.innerHTML = "";
@@ -423,6 +443,18 @@ if (statusWorkingSortButton) {
 
 if (statusDoneSortButton) {
   statusDoneSortButton.addEventListener("click", (event) => {
+    statusSortDone(event);
+  });
+}
+
+if (nameSortButtonUp) {
+  nameSortButtonUp.addEventListener("click", (event) => {
+    statusSortDone(event);
+  });
+}
+
+if (nameSortButtonDown) {
+  nameSortButtonDown.addEventListener("click", (event) => {
     statusSortDone(event);
   });
 }
