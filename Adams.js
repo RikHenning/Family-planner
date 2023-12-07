@@ -115,9 +115,9 @@ function saveEditTask(event, taskIdToEdit) {
 function createTaskListRow(task, taskId) {
   const row = document.createElement("tr");
 
-  const idCell = document.createElement("th");
-  idCell.textContent = task.taskId;
-  row.appendChild(idCell);
+  // const idCell = document.createElement("th");
+  // idCell.textContent = task.taskId;
+  // row.appendChild(idCell);
 
   const statusRadiosCell = document.createElement('th');
     

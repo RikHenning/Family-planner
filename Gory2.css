@@ -1,0 +1,12 @@
+body{
+  background-color: black;
+  font-family: 'Aladin', cursive;
+  color: #F2B009;
+/*  font-size: 48px;*/
+}
+
+button{
+btn-padding-y: 200px;
+btn-padding-x: 200px;
+}
+
