@@ -13,6 +13,14 @@ const statusDoneSortButton = document.getElementById('statusDoneSortButton');
 const searchBar = document.getElementById('searchBar');
 const nameSortButtonUp = document.getElementById('nameSortButtonUp');
 const nameSortButtonDown = document.getElementById('nameSortButtonDown');
+const descriptionSortButtonUp = document.getElementById('descriptionSortButtonUp');
+const descriptionSortButtonDown = document.getElementById('descriptionSortButtonDown');
+const categorySortWorkButton = document.getElementById('categorySortWorkButton');
+const categorySortPersonalButton = document.getElementById('categorySortPersonalButton');
+const categorySortShoppingButton = document.getElementById('categorySortShoppingButton');
+const categorySortGardenButton = document.getElementById('categorySortGardenButton');
+const dueDateButtonUp = document.getElementById('dueDateButtonUp');
+const dueDateButtonDown = document.getElementById('dueDateButtonDown');
 // const { parse, format } = require('date-fns');
 
  function getTasksFromLocalStorage() {
@@ -227,7 +235,7 @@ function createTaskListRow(task, taskId) {
     row.appendChild(editCell);
 
   const deleteButton = document.createElement("button");
-    deleteButton.classList.add("btn", "btn-danger",);
+    deleteButton.classList.add("btn", "btn-danger", "btn-sm");
     deleteButton.textContent = "Not up for it!";
     deleteButton.addEventListener("click", () => {
         deleteTask(task.taskId);
@@ -343,10 +351,127 @@ function statusSortDone(event) {
 
 function nameSort(event) {
   const existingTasks = getTasksFromLocalStorage();
-    existingTasks.sort(existingTasks.taskName);
-    // existingTasks.forEach(task => task.taskName.sort());
-    // existingTasks.sort((a, b) => a.taskName.localeCompare(b.taskName)); suggestion Chat GPT doesn't work
+    existingTasks.sort((a, b) => a.taskName.localeCompare(b.taskName));
+
     taskListBody.innerHTML = "";
+
+  existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+function nameSortDown(event) {
+  const existingTasks = getTasksFromLocalStorage();
+    existingTasks.sort((a, b) => a.taskName.localeCompare(b.taskName));
+    existingTasks.reverse();
+
+    taskListBody.innerHTML = "";
+
+  existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+function descriptionSort(event) {
+  const existingTasks = getTasksFromLocalStorage();
+    existingTasks.sort((a, b) => a.description.localeCompare(b.description));
+
+    taskListBody.innerHTML = "";
+
+  existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+function descriptionSortDown(event) {
+  const existingTasks = getTasksFromLocalStorage();
+    existingTasks.sort((a, b) => a.description.localeCompare(b.description));
+    existingTasks.reverse();
+
+    taskListBody.innerHTML = "";
+
+  existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+function categorySortWork(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksWork = existingTasks.filter(task => task.category === 'Work');
+
+taskListBody.innerHTML = "";
+
+if (existingTasksWork != '') {
+  existingTasksWork.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    }); 
+  } 
+}
+
+function categorySortPersonal(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksPersonal = existingTasks.filter(task => task.category === 'Personal');
+
+  taskListBody.innerHTML = "";
+
+if (existingTasksPersonal != '') {
+  existingTasksPersonal.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    }); 
+  }; 
+}
+
+function categorySortShopping(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksShopping = existingTasks.filter(task => task.category === 'Shopping');
+
+  taskListBody.innerHTML = "";
+
+if (existingTasksShopping != '') {
+  existingTasksShopping.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    }); 
+  }; 
+}
+
+function categorySortGarden(event) {
+  const existingTasks = getTasksFromLocalStorage();
+  const existingTasksGarden = existingTasks.filter(task => task.category === 'Garden');
+
+  taskListBody.innerHTML = "";
+
+if (existingTasksGarden != '') {
+  existingTasksGarden.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    }); 
+  }; 
+}
+
+function dateSortUp(event) {
+  const existingTasks = getTasksFromLocalStorage();
+   existingTasks.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+
+   taskListBody.innerHTML = "";
+
+  existingTasks.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
+}
+
+function dateSortDown(event) {
+  const existingTasks = getTasksFromLocalStorage();
+   existingTasks.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+    existingTasks.reverse();
+   taskListBody.innerHTML = "";
 
   existingTasks.forEach(task => {
       const taskRow = createTaskListRow(task);
@@ -449,13 +574,63 @@ if (statusDoneSortButton) {
 
 if (nameSortButtonUp) {
   nameSortButtonUp.addEventListener("click", (event) => {
-    statusSortDone(event);
+    nameSort(event);
   });
 }
 
 if (nameSortButtonDown) {
   nameSortButtonDown.addEventListener("click", (event) => {
-    statusSortDone(event);
+    nameSortDown(event);
+  });
+}
+
+if (descriptionSortButtonUp) {
+  descriptionSortButtonUp.addEventListener("click", (event) => {
+    descriptionSort(event);
+  });
+}
+
+if (descriptionSortButtonDown) {
+  descriptionSortButtonDown.addEventListener("click", (event) => {
+    descriptionSortDown(event);
+  });
+}
+
+if (categorySortWorkButton) {
+  console.log('there is a button!')
+  categorySortWorkButton.addEventListener("click", (event) => {
+    console.log('there is an event!')
+    categorySortWork(event);
+  });
+}
+
+if (categorySortPersonalButton) {
+  categorySortPersonalButton.addEventListener("click", (event) => {
+    categorySortPersonal(event);
+  });
+}
+
+if (categorySortShoppingButton) {
+  categorySortShoppingButton.addEventListener("click", (event) => {
+    categorySortShopping(event);
+  });
+}
+
+if (categorySortGardenButton) {
+  categorySortGardenButton.addEventListener("click", (event) => {
+    categorySortGarden(event);
+  });
+}
+
+if (dueDateButtonUp) {
+  dueDateButtonUp.addEventListener("click", (event) => {
+    dateSortUp(event);
+  });
+}
+
+if (dueDateButtonDown) {
+  dueDateButtonDown.addEventListener("click", (event) => {
+    dateSortDown(event);
   });
 }
 

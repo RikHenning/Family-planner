@@ -58,7 +58,7 @@
 								</div>
 							</th>
 				      <th scope="col" class="col-sm-2">
-				      <div class="btn-group">
+				      	<div class="btn-group">
 								  <button type="button" class="btn btn-outline-secondary">Name</button>
 								  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
 								    <span class="visually-hidden">Toggle Dropdown</span>
@@ -69,8 +69,30 @@
 								  </ul>
 								</div>
 							</th>
-				      <th scope="col" class="col-sm-2">Description</th>
-				      <th scope="col" class="col-sm-2">Due date</th>
+				      <th scope="col" class="col-sm-2">
+				      	<div class="btn-group">
+								  <button type="button" class="btn btn-outline-secondary">Description</button>
+								  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+								    <span class="visually-hidden">Toggle Dropdown</span>
+								  </button>
+								  <ul class="dropdown-menu">
+								    <li><button class="dropdown-item" type='button' id='descriptionSortButtonUp'>Up</button></li>
+								    <li><button class="dropdown-item" type='button' id='descriptionSortButtonDown'>Down</button></li>
+								  </ul>
+								</div>
+							</th>
+				      <th scope="col" class="col-sm-2">
+				      	<div class="btn-group">
+								  <button type="button" class="btn btn-outline-secondary">Due date</button>
+								  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+								    <span class="visually-hidden">Toggle Dropdown</span>
+								  </button>
+								  <ul class="dropdown-menu">
+								    <li><button class="dropdown-item" type='button' id='dueDateButtonUp'>First to last</button></li>
+								    <li><button class="dropdown-item" type='button' id='dueDateButtonDown'>Last to first</button></li>
+								  </ul>
+								</div>
+							</th>
 				      <th scope="col" class="col-sm-1">
 								<div class="btn-group">
 								  <button type="button" class="btn btn-outline-secondary">Priority</button>
@@ -84,7 +106,20 @@
 								  </ul>
 								</div>
 				      </th>
-				      <th scope="col" class="col-sm-1">Category</th>
+				      <th scope="col" class="col-sm-1">
+				      	<div class="btn-group">
+								  <button type="button" class="btn btn-outline-secondary">Category</button>
+								  <button type="button" class="btn btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+								    <span class="visually-hidden">Toggle Dropdown</span>
+								  </button>
+								  <ul class="dropdown-menu">
+								    <li><button class="dropdown-item" type='button' id='categorySortWorkButton'>Work</button></li>
+								    <li><button class="dropdown-item" type='button' id='categorySortPersonalButton'>Personal</button></li>
+								    <li><button class="dropdown-item" type='button' id='categorySortShoppingButton'>Shopping</button></li>
+								    <li><button class="dropdown-item" type='button' id='categorySortGardenButton'>Garden</button></li>
+								  </ul>
+								</div>
+							</th>
 				      <th scope="col" class="col-sm-1">Edit</th>
 				      <th scope="col" class="col-sm-2">Delete</th>
 				    </tr>
