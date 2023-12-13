@@ -471,6 +471,7 @@ function dateSortDown(event) {
   const existingTasks = getTasksFromLocalStorage();
    existingTasks.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
     existingTasks.reverse();
+    
    taskListBody.innerHTML = "";
 
   existingTasks.forEach(task => {
@@ -509,6 +510,42 @@ if (searchResult !== "") {
   }
 }
 
+function adeptSearchInput(event) {
+  event.preventDefault();
+  const existingTasks = getTasksFromLocalStorage();
+  const input = event.target.searchQuery.value;
+
+  // Regular expressions to match dates in different formats
+  const datePattern1 = /\d{4}-\d{2}-\d{2}/;
+  const datePattern2 = /\d{2}-\d{2}-\d{4}/;
+  const datePattern3 = /\d{2}-\d{2}-\d{2}/;
+  const datePattern4 = /\d{4}\/\d{2}\/\d{2}/;
+  const datePattern5 = /\d{2}\/\d{2}\/\d{4}/;
+  const datePattern6 = /\d{2}\/\d{2}\/\d{2}/;
+
+  // Combine the patterns into a single regular expression with alternation (|)
+  const combinedPattern = new RegExp(`(${datePattern1.source}|${datePattern2.source}|${datePattern3.source}|${datePattern4.source}|${datePattern5.source}|${datePattern6.source})`, 'g');
+
+  // Find all date strings in the user's input
+  const userDates = input.match(combinedPattern);
+  console.log("we have a match", input);
+
+  if (userDates) {
+    // Now you can compare the user's date(s) with the dates in the larger strings
+
+    for (const task of existingTasks) {
+      if (task.hasOwnProperty('dueDate') && typeof task.dueDate === 'string') {
+        const dueDateWithoutQuotes = task.dueDate.replace(/^"(.*)"$/, '$1');
+          console.log("we have found a dueDate", task);
+        if (userDates.some(userDate => dueDateWithoutQuotes.trim().includes(userDate))) {
+          console.log("Match found in:", task);
+        }
+      }
+    }
+  } else {
+    console.log("No valid date found in the user's input.");
+  }
+}
 // function parseDate(input, outputDueDateFormat) {
 //   const formats = ['dd/MM/yyyy', 'yyyy/MM/dd', 'MM/dd/yyyy', 'yyyy/dd/MM', 'dd-MM-yyyy', 'yyyy-MM-dd', 'MM-dd-yyyy', 'yyyy-dd-MM'];
 
@@ -526,6 +563,7 @@ if (searchResult !== "") {
 
 if (searchBar) {
   searchBar.addEventListener("submit", (event) => {
+    adeptSearchInput(event);
     searchTask(event);
   });
 }

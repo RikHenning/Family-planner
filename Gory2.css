@@ -2,7 +2,6 @@ body{
   background-color: black;
   font-family: 'Aladin', cursive;
   color: #0096FF;
-/*  background-image: ;*/
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
@@ -14,3 +13,8 @@ btn-padding-y: 200px;
 btn-padding-x: 200px;
 }
 
+#exampleModal {
+
+ background-color: linear-gradient(to bottom right, black, orange);
+
+}

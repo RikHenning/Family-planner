@@ -135,14 +135,14 @@
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-backdrop-bg-black">
   	<form id='newTaskForm'>
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Next gruesome Task</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body modal-body-padding-20 ">
       
 				  <div class="form-group row">
 				    <label for="inputTask" class="col-sm-2 col-form-label">New Task</label>
@@ -194,22 +194,10 @@
 					  <option value="Shopping" name='Shopping'>Shopping</option>
 					  <option value="Garden" name='Garden'>Garden</option>
 					</select>
-
-				    <div class="col-sm-10">
-				    	<!-- <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Do this thing!</button> -->
-				      <!-- <button type="submit" class="btn btn-primary">Create New Task</button> -->
-				    </div>
-				  </div>
-				 
-				<!-- </form> -->
-
       </div>
-      <div class="modalFooter">
+      <div class="modal-footer modal-footer-padding-y">
         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Create new task</button>
-        
       </div>
-    
-
     </div>
   		</form>
   </div>
