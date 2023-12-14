@@ -514,7 +514,7 @@ function adeptSearchInput(event) {
   event.preventDefault();
   const existingTasks = getTasksFromLocalStorage();
   const input = event.target.searchQuery.value;
-
+    console.log("Input:", input);
   // Regular expressions to match dates in different formats
   const datePattern1 = /\d{4}-\d{2}-\d{2}/;
   const datePattern2 = /\d{2}-\d{2}-\d{4}/;
@@ -528,21 +528,32 @@ function adeptSearchInput(event) {
 
   // Find all date strings in the user's input
   const userDates = input.match(combinedPattern);
-  console.log("we have a match", input);
+  console.log("we have a match 1", userDates);
 
   if (userDates) {
     // Now you can compare the user's date(s) with the dates in the larger strings
 
     for (const task of existingTasks) {
       if (task.hasOwnProperty('dueDate') && typeof task.dueDate === 'string') {
-        const dueDateWithoutQuotes = task.dueDate.replace(/^"(.*)"$/, '$1');
-          console.log("we have found a dueDate", task);
-        if (userDates.some(userDate => dueDateWithoutQuotes.trim().includes(userDate))) {
-          console.log("Match found in:", task);
+          console.log('it gets past the first if statement', task.dueDate);
+        if (userDates.some(userDate => {
+          // Convert userDate to the 'yyyy-mm-dd' format before comparison
+          const formattedUserDate = userDate.split('-').reverse().join('-');
+          return task.dueDate.trim() === formattedUserDate;
+          console.log(formattedUserDate);
+        }))
+            console.log("we have a match 2", userDates, dueDate);
+
+          taskListBody.innerHTML = "";
+
+    userDates.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow)
+    });  
         }
       }
     }
-  } else {
+   else {
     console.log("No valid date found in the user's input.");
   }
 }
@@ -564,7 +575,7 @@ function adeptSearchInput(event) {
 if (searchBar) {
   searchBar.addEventListener("submit", (event) => {
     adeptSearchInput(event);
-    searchTask(event);
+    // searchTask(event);
   });
 }
 
