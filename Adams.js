@@ -203,26 +203,32 @@ function createTaskListRow(task, taskId) {
   statusRadiosCell.appendChild(statusRadiosToDoDiv);
   statusRadiosCell.appendChild(statusRadiosWorkingDiv);
   statusRadiosCell.appendChild(statusRadiosDoneDiv);
+  statusRadiosCell.classList.add("border", "border-secondary", "border-5");
   row.appendChild(statusRadiosCell);
 
   const taskName = document.createElement("td");
   taskName.textContent = task.taskName;
+  taskName.classList.add('border', 'border-danger', 'border-5');
   row.appendChild(taskName);
 
   const description = document.createElement("td");
   description.textContent = task.description;
+  description.classList.add('border', 'border-5', 'border-success');
   row.appendChild(description);
 
   const dueDate = document.createElement("td");
-  dueDate.textContent = task.dueDate; 
+  dueDate.textContent = task.dueDate;
+  dueDate.classList.add('border', 'border-5', 'border-white'); 
   row.appendChild(dueDate);
 
   const priority = document.createElement("td");
   priority.textContent = task.priority;
+  priority.classList.add('border', 'border-5', 'border-light');
   row.appendChild(priority);
 
   const category = document.createElement("td");
   category.textContent = task.category;
+  category.classList.add('border', 'border-5', 'border-dark');
   row.appendChild(category);
 
   const editButton = document.createElement("a");
@@ -575,7 +581,7 @@ function adeptSearchInput(event) {
 if (searchBar) {
   searchBar.addEventListener("submit", (event) => {
     adeptSearchInput(event);
-    // searchTask(event);
+    searchTask(event);
   });
 }
 
@@ -646,9 +652,7 @@ if (descriptionSortButtonDown) {
 }
 
 if (categorySortWorkButton) {
-  console.log('there is a button!')
   categorySortWorkButton.addEventListener("click", (event) => {
-    console.log('there is an event!')
     categorySortWork(event);
   });
 }
