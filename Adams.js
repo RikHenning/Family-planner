@@ -369,8 +369,8 @@ function nameSort(event) {
 
 function nameSortDown(event) {
   const existingTasks = getTasksFromLocalStorage();
-    existingTasks.sort((a, b) => a.taskName.localeCompare(b.taskName));
-    existingTasks.reverse();
+    existingTasks.sort((a, b) => !(a.taskName.localeCompare(b.taskName)));
+    // existingTasks.reverse();
 
     taskListBody.innerHTML = "";
 
