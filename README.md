@@ -1,4 +1,4 @@
-This is my second programming task how to make a task list.
+This is my second programming task : how to make a task list.
 
 Objectives are:
 
