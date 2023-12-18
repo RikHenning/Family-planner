@@ -515,7 +515,7 @@ function searchTask(event) {
           dueDateLower.includes(input)
         );
       }
-  
+
   });
 
   taskListBody.innerHTML = "";
@@ -581,8 +581,8 @@ function parseDateString(dateString, format) {
   }
 
   const year = dateValues.year;
-  const month = String(dateValues.mm).padStart(2, '0');
-  const day = String(dateValues.dd).padStart(2, '0');
+  const month = dateValues.mm ? String(dateValues.mm).padStart(2, '0') : '01'; // Default to '01' if month is missing
+  const day = dateValues.dd ? String(dateValues.dd).padStart(2, '0') : '01'; // Default to '01' if day is missing
   const newFormat = year.concat(month, day);
   console.log(newFormat);
   console.log(`${year}-${month}-${day}`);
