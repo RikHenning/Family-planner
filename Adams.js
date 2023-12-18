@@ -21,7 +21,6 @@ const categorySortShoppingButton = document.getElementById('categorySortShopping
 const categorySortGardenButton = document.getElementById('categorySortGardenButton');
 const dueDateButtonUp = document.getElementById('dueDateButtonUp');
 const dueDateButtonDown = document.getElementById('dueDateButtonDown');
-// const { parse, format } = require('date-fns');
 
  function getTasksFromLocalStorage() {
   return JSON.parse(localStorage.getItem('tasks'));
@@ -492,22 +491,23 @@ function searchTask(event) {
   event.preventDefault();
   const existingTasks = getTasksFromLocalStorage();
   const input = event.target.searchQuery.value;
-  // const outputDueDateFormat = 'yyyy-MM-dd';
-  // const dueDateFormats = parseDate(input, outputDueDateFormat);
+  const outputDueDateFormat = 'yyyy-MM-dd';
+  const inputDueDateFormat = parseDate(input);
+
   const searchResult = existingTasks.filter(task => {
-    const inputLower = input.toLowerCase();
+    const inputLower = inputDueDateFormat.toLowerCase();
     const taskNameLower = task.taskName.toLowerCase();
     const descriptionLower = task.description.toLowerCase();
     const dueDateLower = task.dueDate.toLowerCase();
 
-  return taskNameLower.includes(inputLower) || 
-         descriptionLower.includes(inputLower) || 
-         dueDateLower.includes(inputLower);
-});
+    return taskNameLower.includes(inputLower) || 
+           descriptionLower.includes(inputLower) || 
+           dueDateLower.includes(inputLower);
+  });
 
   taskListBody.innerHTML = "";
 
-if (searchResult !== "") {
+  if (searchResult.length > 0) {
     console.log(searchResult);
     searchResult.forEach(task => {
       const taskRow = createTaskListRow(task);
@@ -516,71 +516,76 @@ if (searchResult !== "") {
   }
 }
 
-function adeptSearchInput(event) {
-  event.preventDefault();
-  const existingTasks = getTasksFromLocalStorage();
-  const input = event.target.searchQuery.value;
-    console.log("Input:", input);
-  // Regular expressions to match dates in different formats
-  const datePattern1 = /\d{4}-\d{2}-\d{2}/;
-  const datePattern2 = /\d{2}-\d{2}-\d{4}/;
-  const datePattern3 = /\d{2}-\d{2}-\d{2}/;
-  const datePattern4 = /\d{4}\/\d{2}\/\d{2}/;
-  const datePattern5 = /\d{2}\/\d{2}\/\d{4}/;
-  const datePattern6 = /\d{2}\/\d{2}\/\d{2}/;
+// Function to convert a date string from one format to another
+// function convertDateFormat(dateString, inputFormat, outputFormat) {
+//   const parsedDate = parseDateString(dateString, inputFormat);
+//   if (parsedDate) {
+//     return parseDateString(parsedDate, outputFormat);
+//   }
+//   return '';
+// }
 
-  // Combine the patterns into a single regular expression with alternation (|)
-  const combinedPattern = new RegExp(`(${datePattern1.source}|${datePattern2.source}|${datePattern3.source}|${datePattern4.source}|${datePattern5.source}|${datePattern6.source})`, 'g');
+// Function to parse a date string (handles multiple date formats)
+function parseDate(input) {
+  const formatsToTry = ['yyyy-MM-dd', 'MM/dd/yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'MM-dd-yyyy', 'dd-MM-yyyy', 'dd-MM', 'MM-dd', 'MM-yyyy', 'dd/MM', 'MM/dd', 'MM/yyyy', 'yy-MM-dd', 'MM/dd/yy', 'dd/MM/yy', 'yy/MM/dd', 'MM-dd-yy', 'dd-MM-yy'];
+  for (const format of formatsToTry) {
+    const parsedDate = parseDateString(input, format);
+    if (parsedDate) {
+      return parsedDate;
+    }
+  }
+  return null; // Return null if no valid date format is found
+}
 
-  // Find all date strings in the user's input
-  const userDates = input.match(combinedPattern);
-  console.log("we have a match 1", userDates);
+// Function to parse a date string using a specific format
+function parseDateString(dateString, format) {
+  const parts = dateString.split(/[\s\/\-]/); // Split the input by common date separators
+  const formatParts = format.split(/[\s\/\-]/); // Split the desired format by separators
 
-  if (userDates) {
-    // Now you can compare the user's date(s) with the dates in the larger strings
+  if (parts.length !== formatParts.length) {
+    return null; // Invalid format or mismatched parts
+  }
 
-    for (const task of existingTasks) {
-      if (task.hasOwnProperty('dueDate') && typeof task.dueDate === 'string') {
-          console.log('it gets past the first if statement', task.dueDate);
-        if (userDates.some(userDate => {
-          // Convert userDate to the 'yyyy-mm-dd' format before comparison
-          const formattedUserDate = userDate.split('-').reverse().join('-');
-          return task.dueDate.trim() === formattedUserDate;
-          console.log(formattedUserDate);
-        }))
-            console.log("we have a match 2", userDates, dueDate);
+  const dateValues = {};
 
-          taskListBody.innerHTML = "";
+  for (let i = 0; i < formatParts.length; i++) {
+    const formatPart = formatParts[i].toLowerCase();
+    const part = parts[i];
 
-    userDates.forEach(task => {
-      const taskRow = createTaskListRow(task);
-      taskListBody.appendChild(taskRow)
-    });  
-        }
+    if (formatPart === 'yyyy') {
+      dateValues.year = part;
+    } else if (formatPart === 'mm' || formatPart === 'dd') {
+      dateValues[formatPart] = part;
+    } else if (formatPart === 'yy') {
+      // Handle two-digit year format
+      const currentYear = new Date().getFullYear(); // Get the current year
+      const currentCentury = Math.floor(currentYear / 100); // Get the current century
+      const year = parseInt(part);
+
+      // Assume that two-digit years greater than the current year's last two digits
+      // belong to the previous century, otherwise belong to the current century
+      if (year > currentYear % 100) {
+        dateValues.year = `${currentCentury - 1}${part}`;
+      } else {
+        dateValues.year = `${currentCentury}${part}`;
       }
     }
-   else {
-    console.log("No valid date found in the user's input.");
   }
+
+  if (!dateValues.year || !dateValues.mm || !dateValues.dd) {
+    return null; // Missing date components
+  }
+
+  const year = dateValues.year;
+  const month = String(dateValues.mm).padStart(2, '0');
+  const day = String(dateValues.dd).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
 }
-// function parseDate(input, outputDueDateFormat) {
-//   const formats = ['dd/MM/yyyy', 'yyyy/MM/dd', 'MM/dd/yyyy', 'yyyy/dd/MM', 'dd-MM-yyyy', 'yyyy-MM-dd', 'MM-dd-yyyy', 'yyyy-dd-MM'];
-
-//   for (const format of formats) {
-//     const parsedDate = parse(input, format, new Date(), { awareOfUnicodeTokens: true });
-
-//     if (!isNaN(parsedDate)) {
-//       return format(parsedDate, outputFormat);
-//     }
-//   }
-
-//   return null; // Return null if no valid date format is found
-// }
 
 
 if (searchBar) {
   searchBar.addEventListener("submit", (event) => {
-    adeptSearchInput(event);
     searchTask(event);
   });
 }
