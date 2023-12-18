@@ -495,14 +495,27 @@ function searchTask(event) {
   const inputDueDateFormat = parseDate(input);
 
   const searchResult = existingTasks.filter(task => {
-    const inputLower = inputDueDateFormat.toLowerCase();
+    const inputLower = inputDueDateFormat ? inputDueDateFormat.toLowerCase() : null;
     const taskNameLower = task.taskName.toLowerCase();
     const descriptionLower = task.description.toLowerCase();
     const dueDateLower = task.dueDate.toLowerCase();
 
-    return taskNameLower.includes(inputLower) || 
-           descriptionLower.includes(inputLower) || 
-           dueDateLower.includes(inputLower);
+    // Check if inputDueDateFormat is not null before using it
+      if (inputLower !== null) {
+        return (
+          taskNameLower.includes(inputLower) ||
+          descriptionLower.includes(inputLower) ||
+          dueDateLower.includes(inputLower)
+        );
+      } else {
+        // Handle the case when input is not a valid date (text input)
+        return (
+          taskNameLower.includes(input) || // Use the original input as is
+          descriptionLower.includes(input) ||
+          dueDateLower.includes(input)
+        );
+      }
+  
   });
 
   taskListBody.innerHTML = "";
@@ -515,15 +528,6 @@ function searchTask(event) {
     });  
   }
 }
-
-// Function to convert a date string from one format to another
-// function convertDateFormat(dateString, inputFormat, outputFormat) {
-//   const parsedDate = parseDateString(dateString, inputFormat);
-//   if (parsedDate) {
-//     return parseDateString(parsedDate, outputFormat);
-//   }
-//   return '';
-// }
 
 // Function to parse a date string (handles multiple date formats)
 function parseDate(input) {
@@ -579,8 +583,11 @@ function parseDateString(dateString, format) {
   const year = dateValues.year;
   const month = String(dateValues.mm).padStart(2, '0');
   const day = String(dateValues.dd).padStart(2, '0');
+  const newFormat = year.concat(month, day);
+  console.log(newFormat);
+  console.log(`${year}-${month}-${day}`);
 
-  return `${year}-${month}-${day}`;
+  return `${year}-${month}-${day}`, `${day}-${month}-${year}`;
 }
 
 
