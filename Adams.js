@@ -202,12 +202,12 @@ function createTaskListRow(task, taskId) {
   statusRadiosCell.appendChild(statusRadiosToDoDiv);
   statusRadiosCell.appendChild(statusRadiosWorkingDiv);
   statusRadiosCell.appendChild(statusRadiosDoneDiv);
-  statusRadiosCell.classList.add("border", "border-secondary", "border-5");
+  statusRadiosCell.classList.add("border", "border-success", "border-5");
   row.appendChild(statusRadiosCell);
 
   const taskName = document.createElement("td");
   taskName.textContent = task.taskName;
-  taskName.classList.add('border', 'border-danger', 'border-5');
+  taskName.classList.add('border', 'border-success', 'border-5');
   row.appendChild(taskName);
 
   const description = document.createElement("td");
@@ -217,17 +217,17 @@ function createTaskListRow(task, taskId) {
 
   const dueDate = document.createElement("td");
   dueDate.textContent = task.dueDate;
-  dueDate.classList.add('border', 'border-5', 'border-white'); 
+  dueDate.classList.add('border', 'border-5', 'border-success'); 
   row.appendChild(dueDate);
 
   const priority = document.createElement("td");
   priority.textContent = task.priority;
-  priority.classList.add('border', 'border-5', 'border-light');
+  priority.classList.add('border', 'border-5', 'border-success');
   row.appendChild(priority);
 
   const category = document.createElement("td");
   category.textContent = task.category;
-  category.classList.add('border', 'border-5', 'border-dark');
+  category.classList.add('border', 'border-5', 'border-success');
   row.appendChild(category);
 
   const editButton = document.createElement("a");
@@ -487,6 +487,15 @@ function dateSortDown(event) {
 
 // search functions
 
+getElementById(document).ready(function () {
+  getElementById("#anythingSearch").on("keyup", function () {
+    var value = getElementById(this).val().toLowerCase();
+    getElementById("#myDIV *").filter(function () {
+      getElementById(this).toggle(getElementById(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
 function searchTask(event) {
   event.preventDefault();
   const existingTasks = getTasksFromLocalStorage();
@@ -535,9 +544,11 @@ function parseDate(input) {
   for (const format of formatsToTry) {
     const parsedDate = parseDateString(input, format);
     if (parsedDate) {
+      console.log(parsedDate);
       return parsedDate;
     }
   }
+  console.log('returned null');
   return null; // Return null if no valid date format is found
 }
 
@@ -587,7 +598,7 @@ function parseDateString(dateString, format) {
   console.log(newFormat);
   console.log(`${year}-${month}-${day}`);
 
-  return `${year}-${month}-${day}`, `${day}-${month}-${year}`;
+  return `${year}-${month}-${day}`, `${day}-${month}-${year}`, `${month}-${day}-${year}`, `${month}-${year}-${day}`;
 }
 
 
