@@ -18,3 +18,7 @@ btn-padding-x: 200px;
  background-color: linear-gradient(to bottom right, black, orange);
 
 }
+
+.custom-bg-black {
+  background-color: black;
+}

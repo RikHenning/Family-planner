@@ -11,6 +11,7 @@ const statusToDoSortButton = document.getElementById('statusToDoSortButton');
 const statusWorkingSortButton = document.getElementById('statusWorkingSortButton');
 const statusDoneSortButton = document.getElementById('statusDoneSortButton');
 const searchBar = document.getElementById('searchBar');
+const searchDateBar = document.getElementById('searchDateBar');
 const nameSortButtonUp = document.getElementById('nameSortButtonUp');
 const nameSortButtonDown = document.getElementById('nameSortButtonDown');
 const descriptionSortButtonUp = document.getElementById('descriptionSortButtonUp');
@@ -487,44 +488,19 @@ function dateSortDown(event) {
 
 // search functions
 
-getElementById(document).ready(function () {
-  getElementById("#anythingSearch").on("keyup", function () {
-    var value = getElementById(this).val().toLowerCase();
-    getElementById("#myDIV *").filter(function () {
-      getElementById(this).toggle(getElementById(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-
 function searchTask(event) {
   event.preventDefault();
   const existingTasks = getTasksFromLocalStorage();
-  const input = event.target.searchQuery.value;
-  const outputDueDateFormat = 'yyyy-MM-dd';
-  const inputDueDateFormat = parseDate(input);
+  const input = event.target.searchTextQuery.value;
 
   const searchResult = existingTasks.filter(task => {
-    const inputLower = inputDueDateFormat ? inputDueDateFormat.toLowerCase() : null;
     const taskNameLower = task.taskName.toLowerCase();
     const descriptionLower = task.description.toLowerCase();
-    const dueDateLower = task.dueDate.toLowerCase();
 
-    // Check if inputDueDateFormat is not null before using it
-      if (inputLower !== null) {
-        return (
-          taskNameLower.includes(inputLower) ||
-          descriptionLower.includes(inputLower) ||
-          dueDateLower.includes(inputLower)
-        );
-      } else {
-        // Handle the case when input is not a valid date (text input)
         return (
           taskNameLower.includes(input) || // Use the original input as is
-          descriptionLower.includes(input) ||
-          dueDateLower.includes(input)
+          descriptionLower.includes(input) 
         );
-      }
-
   });
 
   taskListBody.innerHTML = "";
@@ -539,68 +515,92 @@ function searchTask(event) {
 }
 
 // Function to parse a date string (handles multiple date formats)
-function parseDate(input) {
-  const formatsToTry = ['yyyy-MM-dd', 'MM/dd/yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'MM-dd-yyyy', 'dd-MM-yyyy', 'dd-MM', 'MM-dd', 'MM-yyyy', 'dd/MM', 'MM/dd', 'MM/yyyy', 'yy-MM-dd', 'MM/dd/yy', 'dd/MM/yy', 'yy/MM/dd', 'MM-dd-yy', 'dd-MM-yy'];
-  for (const format of formatsToTry) {
-    const parsedDate = parseDateString(input, format);
-    if (parsedDate) {
-      console.log(parsedDate);
-      return parsedDate;
-    }
-  }
-  console.log('returned null');
-  return null; // Return null if no valid date format is found
-}
+// function parseDate(input) {
+//   const formatsToTry = ['yyyy-MM-dd', 'MM/dd/yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'MM-dd-yyyy', 'dd-MM-yyyy', 'dd-MM', 'MM-dd', 'MM-yyyy', 'dd/MM', 'MM/dd', 'MM/yyyy', 'yy-MM-dd', 'MM/dd/yy', 'dd/MM/yy', 'yy/MM/dd', 'MM-dd-yy', 'dd-MM-yy'];
+//   for (const format of formatsToTry) {
+//     const parsedDate = parseDateString(input, format);
+//     if (parsedDate) {
+//       console.log(parsedDate);
+//       return parsedDate;
+//     }
+//   }
+//   console.log('returned null');
+//   return null; // Return null if no valid date format is found
+// }
 
 // Function to parse a date string using a specific format
-function parseDateString(dateString, format) {
-  const parts = dateString.split(/[\s\/\-]/); // Split the input by common date separators
-  const formatParts = format.split(/[\s\/\-]/); // Split the desired format by separators
+// function parseDateString(dateString, format) {
+//   const parts = dateString.split(/[\s\/\-]/); // Split the input by common date separators
+//   const formatParts = format.split(/[\s\/\-]/); // Split the desired format by separators
 
-  if (parts.length !== formatParts.length) {
-    return null; // Invalid format or mismatched parts
-  }
+//   if (parts.length !== formatParts.length) {
+//     return null; // Invalid format or mismatched parts
+//   }
 
-  const dateValues = {};
+//   const dateValues = {};
 
-  for (let i = 0; i < formatParts.length; i++) {
-    const formatPart = formatParts[i].toLowerCase();
-    const part = parts[i];
+//   for (let i = 0; i < formatParts.length; i++) {
+//     const formatPart = formatParts[i].toLowerCase();
+//     const part = parts[i];
 
-    if (formatPart === 'yyyy') {
-      dateValues.year = part;
-    } else if (formatPart === 'mm' || formatPart === 'dd') {
-      dateValues[formatPart] = part;
-    } else if (formatPart === 'yy') {
-      // Handle two-digit year format
-      const currentYear = new Date().getFullYear(); // Get the current year
-      const currentCentury = Math.floor(currentYear / 100); // Get the current century
-      const year = parseInt(part);
+//     if (formatPart === 'yyyy') {
+//       dateValues.year = part;
+//     } else if (formatPart === 'mm' || formatPart === 'dd') {
+//       dateValues[formatPart] = part;
+//     } else if (formatPart === 'yy') {
+//       // Handle two-digit year format
+//       const currentYear = new Date().getFullYear(); // Get the current year
+//       const currentCentury = Math.floor(currentYear / 100); // Get the current century
+//       const year = parseInt(part);
 
-      // Assume that two-digit years greater than the current year's last two digits
-      // belong to the previous century, otherwise belong to the current century
-      if (year > currentYear % 100) {
-        dateValues.year = `${currentCentury - 1}${part}`;
-      } else {
-        dateValues.year = `${currentCentury}${part}`;
-      }
-    }
-  }
+//       // Assume that two-digit years greater than the current year's last two digits
+//       // belong to the previous century, otherwise belong to the current century
+//       if (year > currentYear % 100) {
+//         dateValues.year = `${currentCentury - 1}${part}`;
+//       } else {
+//         dateValues.year = `${currentCentury}${part}`;
+//       }
+//     }
+//   }
 
-  if (!dateValues.year || !dateValues.mm || !dateValues.dd) {
-    return null; // Missing date components
-  }
+//   if (!dateValues.year || !dateValues.mm || !dateValues.dd) {
+//     return null; // Missing date components
+//   }
 
-  const year = dateValues.year;
-  const month = dateValues.mm ? String(dateValues.mm).padStart(2, '0') : '01'; // Default to '01' if month is missing
-  const day = dateValues.dd ? String(dateValues.dd).padStart(2, '0') : '01'; // Default to '01' if day is missing
-  const newFormat = year.concat(month, day);
-  console.log(newFormat);
-  console.log(`${year}-${month}-${day}`);
+//   const year = dateValues.year;
+//   const month = dateValues.mm ? String(dateValues.mm).padStart(2, '0') : '01'; // Default to '01' if month is missing
+//   const day = dateValues.dd ? String(dateValues.dd).padStart(2, '0') : '01'; // Default to '01' if day is missing
+//   const newFormat = year.concat(month, day);
+//   console.log(newFormat);
+//   console.log(`${year}-${month}-${day}`);
 
-  return `${year}-${month}-${day}`, `${day}-${month}-${year}`, `${month}-${day}-${year}`, `${month}-${year}-${day}`;
+//   return `${year}-${month}-${day}`, `${day}-${month}-${year}`, `${month}-${day}-${year}`, `${month}-${year}-${day}`;
+// }
+
+function searchTaskByDate(event) {
+  event.preventDefault();
+  const existingTasks = getTasksFromLocalStorage();
+  const inputDate = event.target.searchDateQuery.value;
+  console.log(inputDate);
+  
+  const searchResult = existingTasks.filter(task => task.dueDate === inputDate); 
+  console.log(searchResult);
+
+    taskListBody.innerHTML = "";
+
+  searchResult.forEach(task => {
+      const taskRow = createTaskListRow(task);
+      taskListBody.appendChild(taskRow);
+    }); 
 }
 
+
+
+if (searchDateBar) {
+  searchDateBar.addEventListener("submit", (event) => {
+    searchTaskByDate(event);
+  });
+}
 
 if (searchBar) {
   searchBar.addEventListener("submit", (event) => {

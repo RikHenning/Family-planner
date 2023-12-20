@@ -33,8 +33,12 @@
 				<br>
 				<div class="row header">
 					<form id='searchBar'>
-						<input class="form-control" type="text" id="anythingSearch" placeholder="Search" aria-label="Search">
-						<!-- <button type="submit" class='btn btn-secondary'>Look it up!</button> -->
+						<input type="text" name="searchBar" id='searchTextQuery'>
+						<button type="submit" class='btn btn-secondary'>Look it up!</button>
+					</form>
+					<form id='searchDateBar'>
+						<input type="date" name="searchBar" id='searchDateQuery'>
+						<button type="submit" class='btn btn-secondary'>Look it up!</button>
 					</form>
 				</div>
 			</div>
@@ -128,9 +132,9 @@
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-backdrop-bg-black">
+  <div class="modal-dialog">
   	<form id='newTaskForm'>
-    <div class="modal-content">
+    <div class="modal-content custom-bg-black">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Next gruesome Task</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
